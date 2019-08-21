@@ -6,8 +6,10 @@
     { "url": "https://jsapi.apiary.io/apis/apify2prod.html" }
   ],
   "clickableElements": "EMPTY",
+  "selectors": [],
   "additionalPageAttrs": {
     "type": "api"
   },
+  "waitForElement": "h1.humanColumnApiName",
   "skipIndexUpdate": true
 }

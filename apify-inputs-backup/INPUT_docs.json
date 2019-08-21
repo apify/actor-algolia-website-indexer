@@ -9,5 +9,6 @@
         "type": "docs"
     },
     "clickableElements": ".docs-menu a",
+    "selectors": [],
     "skipIndexUpdate": true
 }
