@@ -10,10 +10,16 @@
             "purl": "https://www.youtube.com/watch[.*]"
         }
     ],
-    "selectors": {
-        "title": "h1.title.ytd-video-primary-info-renderer",
-        "text": "#description"
-    },
+    "selectors": [
+        {
+            "key": "title",
+            "value": "h1.title.ytd-video-primary-info-renderer"
+        },
+        {
+            "key": "text",
+            "value": "#description"
+        }
+    ],
     "clickableElements": "#contents a#video-title",
     "additionalPageAttrs": {
         "type": "video"

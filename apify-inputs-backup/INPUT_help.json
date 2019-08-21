@@ -5,10 +5,16 @@
     "startUrls": [
         { "url": "https://help.apify.com/" }
     ],
-    "selectors": {
-        "title": "h1.t__h1",
-        "text": "article"
-    },
+    "selectors": [
+        {
+            "key": "title",
+            "value": "h1.t__h1"
+        },
+        {
+            "key": "text",
+            "value": "article"
+        }
+    ]
     "additionalPageAttrs": {
         "type": "help"
     }

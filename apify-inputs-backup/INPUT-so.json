@@ -14,10 +14,16 @@
         }
     ],
     "clickableElements": ".pager a, #questions h3 a",
-    "selectors": {
-        "title": "h1",
-        "text": ".post-text"
-    },
+    "selectors": [
+        {
+            "key": "title",
+            "value": "h1"
+        },
+        {
+            "key": "text",
+            "value": ".post-text"
+        }
+    ],
     "additionalPageAttrs": {
         "type": "stackOverflow"
     },

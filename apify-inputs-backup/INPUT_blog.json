@@ -5,10 +5,16 @@
     "startUrls": [
         { "url": "https://blog.apify.com/" }
     ],
-    "selectors": {
-        "title": "title",
-        "text": "[data-selectable-paragraph]"
-    },
+    "selectors": [
+        {
+            "key": "title",
+            "value": "title"
+        },
+        {
+            "key": "text",
+            "value": "[data-selectable-paragraph]"
+        }
+    ],
     "clickableElements": "a[data-post-id]",
     "additionalPageAttrs": {
         "type": "blog"
