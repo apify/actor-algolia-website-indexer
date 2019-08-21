@@ -1,0 +1,9 @@
+{
+	"name": "algolia-scraper",
+	"version": "0.0",
+	"buildTag": "latest",
+	"env": {
+		"ALGOLIA_API_KEY": "@ALGOLIA_API_KEY"
+	},
+	"template": "puppeteer_crawler"
+}

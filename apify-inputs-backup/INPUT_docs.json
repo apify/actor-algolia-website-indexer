@@ -1,0 +1,13 @@
+{
+    "algoliaAppId": "R7KOJZJG1V",
+    "algoliaIndexName": "prod_APIFY_HELP",
+    "crawlerName": "docsCrawler",
+    "startUrls": [
+        { "url": "https://apify.com/docs/" }
+    ],
+    "additionalPageAttrs": {
+        "type": "docs"
+    },
+    "clickableElements": ".docs-menu a",
+    "skipIndexUpdate": true
+}

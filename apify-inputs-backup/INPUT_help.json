@@ -1,0 +1,15 @@
+{
+    "algoliaAppId": "R7KOJZJG1V",
+    "algoliaIndexName": "prod_APIFY_HELP",
+    "crawlerName": "helpCrawler",
+    "startUrls": [
+        { "url": "https://help.apify.com/" }
+    ],
+    "selectors": {
+        "title": "h1.t__h1",
+        "text": "article"
+    },
+    "additionalPageAttrs": {
+        "type": "help"
+    }
+}

@@ -1,0 +1,22 @@
+{
+    "algoliaAppId": "R7KOJZJG1V",
+    "algoliaIndexName": "prod_APIFY_HELP",
+    "crawlerName": "apifyYoutubeCrawler",
+    "startUrls": [
+        { "url": "https://www.youtube.com/channel/UCTgwcoeGGKmZ3zzCXN2qo_A/videos" }
+    ],
+    "pseudoUrls": [
+        {
+            "purl": "https://www.youtube.com/watch[.*]"
+        }
+    ],
+    "selectors": {
+        "title": "h1.title.ytd-video-primary-info-renderer",
+        "text": "#description"
+    },
+    "clickableElements": "#contents a#video-title",
+    "additionalPageAttrs": {
+        "type": "video"
+    },
+    "skipIndexUpdate": true
+}

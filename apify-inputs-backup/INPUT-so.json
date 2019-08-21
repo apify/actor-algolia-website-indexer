@@ -1,0 +1,25 @@
+{
+    "algoliaAppId": "R7KOJZJG1V",
+    "algoliaIndexName": "prod_APIFY_HELP",
+    "crawlerName": "stackOverflowCrawler",
+    "startUrls": [
+        { "url": "https://stackoverflow.com/questions/tagged/apify" }
+    ],
+    "pseudoUrls": [
+        {
+            "purl": "https://stackoverflow.com/questions/[.*]"
+        },
+        {
+            "purl": "https://stackoverflow.com/questions/tagged/apify[.*]"
+        }
+    ],
+    "clickableElements": ".pager a, #questions h3 a",
+    "selectors": {
+        "title": "h1",
+        "text": ".post-text"
+    },
+    "additionalPageAttrs": {
+        "type": "stackOverflow"
+    },
+    "skipIndexUpdate": true
+}

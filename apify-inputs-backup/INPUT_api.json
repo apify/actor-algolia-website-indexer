@@ -1,0 +1,13 @@
+{
+  "algoliaAppId": "R7KOJZJG1V",
+  "algoliaIndexName": "prod_APIFY_HELP",
+  "crawlerName": "apiCrawler",
+  "startUrls": [
+    { "url": "https://jsapi.apiary.io/apis/apify2prod.html" }
+  ],
+  "clickableElements": "EMPTY",
+  "additionalPageAttrs": {
+    "type": "api"
+  },
+  "skipIndexUpdate": true
+}

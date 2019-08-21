@@ -1,0 +1,82 @@
+{
+  "title": "Algolia Web Crawler input",
+  "description": "",
+  "type": "object",
+  "schemaVersion": 1,
+  "properties": {
+    "algoliaAppId": {
+      "title": "Algolia App ID",
+      "type": "string",
+      "description": "Your Algolia Aplication ID",
+      "editor": "textfield"
+    },
+    "algoliaApiKey": {
+      "title": "Algolia API Key",
+      "type": "string",
+      "description": "Your Algolia API key",
+      "editor": "textfield"
+    },
+    "algoliaIndexName": {
+      "title": "Algolia Index Name",
+      "type": "string",
+      "description": "Your Algolia index name",
+      "editor": "textfield"
+    },
+    "crawlerName": {
+      "title": "Crawler Name",
+      "type": "string",
+      "description": "Crawler updates/removes/adds pages into to index regarding this name. In this case you can have more website in the index.",
+      "editor": "textfield"
+    },
+    "startUrls": {
+      "title": "Start URLs",
+      "type": "array",
+      "description": "URLs where to start crawling",
+      "prefill": [
+        {
+          "url": "http://example.com"
+        }
+      ],
+      "editor": "requestListSources"
+    },
+    "selectors": {
+      "title": "Selectors",
+      "type": "array",
+      "description": "Pick selectors, which text content you want to index. Key is name of attribute and value is CSS selector.",
+      "prefill": [
+        {
+          "key": "h1",
+          "value": "body"
+        }
+      ],
+      "editor": "keyValue"
+    },
+    "waitForElement": {
+      "title": "Wait for element",
+      "type": "string",
+      "description": "Selector of element to wait on each page.",
+      "editor": "textfield"
+    },
+    "additionalPageAttrs": {
+      "title": "Additional attributes",
+      "type": "object",
+      "description": "Pick additional attributes you want to attach to each record in index.",
+      "editor": "json",
+      "prefill": {},
+      "default": {}
+    },
+    "skipIndexUpdate": {
+      "title": "Skip Index Updated",
+      "type": "boolean",
+      "description": "If check crawler will not update Algolia index.",
+      "default": false
+    }
+  },
+  "required": [
+    "algoliaAppId",
+    "algoliaApiKey",
+    "algoliaIndexName",
+    "startUrls",
+    "selectors"
+  ]
+}
