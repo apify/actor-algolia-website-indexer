@@ -1,5 +1,5 @@
 {
-	"name": "algolia-scraper",
+	"name": "algolia-website-indexer",
 	"version": "0.0",
 	"buildTag": "latest",
 	"env": {

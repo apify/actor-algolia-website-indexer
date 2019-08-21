@@ -47,10 +47,8 @@ const setUpCrawler = async (input) => {
 
     // Transform selectors into key-value object
     let selectors = {};
-    if (Array.isArray(input.selectors)) {
+    if (input.selectors && Array.isArray(input.selectors)) {
         input.selectors.forEach(selector => (selectors[selector.key] = selector.value))
-    } else {
-        selectors = input.selectors;
     }
 
     const requestQueue = await Apify.openRequestQueue();
@@ -60,7 +58,6 @@ const setUpCrawler = async (input) => {
         startUrls.forEach(request => pseudoUrls.push({ purl: `${request.url}[.*]` }));
     }
     const pseudoUrlsUpdated = pseudoUrls.map(request => new Apify.PseudoUrl(request.purl));
-    console.log(pseudoUrlsUpdated);
 
     // NOTE: This is for local runs purposes.
     // You can override pageFunction with file pageFunction in same dir.

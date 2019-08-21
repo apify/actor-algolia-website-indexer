@@ -1,3 +1,9 @@
+/**
+ * Browses whole Algolia index and returns pages crawler by selected crawler.
+ * @param index
+ * @param crawledBy
+ * @return {Promise<Array>}
+ */
 const browseAll = async (index, crawledBy) => {
     const browser = index.browseAll(null, { filters: `crawledBy:${crawledBy}` });
     let items = [];
@@ -20,6 +26,12 @@ const browseAll = async (index, crawledBy) => {
     return items;
 };
 
+/**
+ * Updates Algolia index regarding pagesDiff object.
+ * @param index
+ * @param pagesDiff
+ * @return {Promise<void>}
+ */
 const update = async (index, pagesDiff) => {
     const pagesToAdd = Object.values(pagesDiff.pagesToAdd);
     if (pagesToAdd.length) {

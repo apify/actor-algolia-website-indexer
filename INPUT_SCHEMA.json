@@ -7,7 +7,7 @@
     "algoliaAppId": {
       "title": "Algolia App ID",
       "type": "string",
-      "description": "Your Algolia Aplication ID",
+      "description": "Your Algolia Application ID",
       "editor": "textfield"
     },
     "algoliaApiKey": {
@@ -25,7 +25,7 @@
     "crawlerName": {
       "title": "Crawler Name",
       "type": "string",
-      "description": "Crawler updates/removes/adds pages into to index regarding this name. In this case you can have more website in the index.",
+      "description": "Crawler name, it updates/removes/adds pages into to index regarding this name. In this case, you can have more website in the index.",
       "editor": "textfield"
     },
     "startUrls": {

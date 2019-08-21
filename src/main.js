@@ -6,11 +6,12 @@ const { setUpCrawler } = require('./crawler');
 
 Apify.main(async () => {
     const input = await Apify.getInput();
-    const { algoliaAppId, algoliaIndexName, algoliaApiKey, skipIndexUpdate, crawlerName } = input;
+    const { algoliaAppId, algoliaIndexName, algoliaApiKey = process.env.ALGOLIA_API_KEY, skipIndexUpdate, crawlerName } = input;
 
     const algoliaClient = algoliasearch(algoliaAppId, algoliaApiKey);
     const algoliaSearchIndex = algoliaClient.initIndex(algoliaIndexName);
 
+    // Run crawler for teh website
     const crawler = await setUpCrawler(input);
     await crawler.run();
 
@@ -18,6 +19,7 @@ Apify.main(async () => {
     const datasetInfo = await dataset.getInfo();
     console.log(`Crawler finished, it found ${datasetInfo.cleanItemCount} pages to index!`);
 
+    // Compare scraped pages with pages already saved to index and creates object with differences
     const pagesInIndex = await algoliaIndex.browseAll(algoliaSearchIndex, crawlerName);
     console.log(`There are ${pagesInIndex.length} pages in the index for ${crawlerName}.`);
     const pagesIndexByUrl = _.indexBy(pagesInIndex, 'url');
@@ -47,5 +49,9 @@ Apify.main(async () => {
 
     await Apify.setValue('OUTPUT', pagesDiff);
 
-    if (!skipIndexUpdate) await algoliaIndex.update(algoliaSearchIndex, pagesDiff);
+    // Performs updates in index
+    if (skipIndexUpdate) console.log('Index updates were skipped!');
+    else await algoliaIndex.update(algoliaSearchIndex, pagesDiff);
+
+    console.log('Done!')
 });
