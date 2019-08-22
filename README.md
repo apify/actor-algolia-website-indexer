@@ -1,6 +1,6 @@
 # Algolia Website Indexer
 
-The Indexer crawls a website using the Puppeteer browser (headless Chrome) and indexes the selected page to the Algolia index.
+The Indexer crawls a website using the Puppeteer browser (headless Chrome) and indexes the selected pages to the Algolia index.
 It was designed to run in an Apify actor.
 
 ## Usage
