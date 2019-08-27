@@ -10,16 +10,7 @@
             "purl": "https://sdk.apify.com/docs/[.*]"
         }
     ],
-    "selectors": [
-        {
-            "key": "title",
-            "value": "h1.postHeaderTitle"
-        },
-        {
-            "key": "text",
-            "value": "article"
-        }
-    ],
+    "selectors": [],
     "additionalPageAttrs": {
         "type": "sdk"
     },
