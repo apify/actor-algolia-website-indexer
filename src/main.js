@@ -31,21 +31,24 @@ Apify.main(async () => {
     };
 
     const limit = 10000;
+    const uniqueDatasetResults = {};
     for (let offset = 0;offset < datasetInfo.itemCount; offset += limit) {
         const datasetResult = await dataset.getData({ clean: true, offset, limit });
-        datasetResult.items.forEach((page) => {
-            const { url } = page;
-            if (pagesIndexByUrl[url]) {
-                pagesDiff.pagesToUpdate[url] = {
-                    ...page,
-                    objectID: pagesIndexByUrl[url].objectID,
-                };
-            } else {
-                pagesDiff.pagesToAdd[url] = page;
-            }
-            delete pagesDiff.pagesToRemove[url];
-        });
+        Object.assign(uniqueDatasetResults, _.indexBy(datasetResult.items, 'url'));
     }
+
+    Object.values(uniqueDatasetResults).forEach((page) => {
+        const { url } = page;
+        if (pagesIndexByUrl[url]) {
+            pagesDiff.pagesToUpdate[url] = {
+                ...page,
+                objectID: pagesIndexByUrl[url].objectID,
+            };
+        } else {
+            pagesDiff.pagesToAdd[url] = page;
+        }
+        delete pagesDiff.pagesToRemove[url];
+    });
 
     await Apify.setValue('OUTPUT', pagesDiff);
 
