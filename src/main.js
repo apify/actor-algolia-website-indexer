@@ -15,6 +15,9 @@ Apify.main(async () => {
     const crawler = await setUpCrawler(input);
     await crawler.run();
 
+    // Sometimes it takes some time to write data to dataset, this should ensure that all data will be in dataset.
+    await Apify.utils.sleep(5000);
+
     const dataset = await Apify.openDataset();
     const datasetInfo = await dataset.getInfo();
     console.log(`Crawler finished, it found ${datasetInfo.cleanItemCount} pages to index!`);
