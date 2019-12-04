@@ -17,7 +17,7 @@ const defaultPageFunction = async ({ page, request, selectors, Apify }) => {
         url: request.url,
         '#debug': Apify.utils.createRequestDebugInfo(request),
     };
-    const getSelectorsHTMLContent = (selectors) => {
+    const getSelectorsHTMLContent = (selectors = []) => {
         const result = {};
         Object.keys(selectors).forEach((key) => {
             const selector = selectors[key];
@@ -43,7 +43,7 @@ const omitSearchParams = (req) => {
 const setUpCrawler = async (input) => {
     const { startUrls, additionalPageAttrs,
         omitSearchParamsFromUrl, clickableElements, pageFunction,
-        keepUrlFragment, waitForElement, pseudoUrls = [], crawlerName } = input;
+        keepUrlFragment, waitForElement, pseudoUrls = [], crawlerName, requiredAttributes } = input;
 
     // Transform selectors into key-value object
     let selectors = {};
@@ -78,7 +78,7 @@ const setUpCrawler = async (input) => {
 
             // Get results from the page
             let results;
-            const pageFunctionContext = { page, request, selectors, Apify };
+            const pageFunctionContext = { page, request, selectors, requiredAttributes, Apify };
             if (pageFunction) {
                 results = await vm.runInThisContext(pageFunction)(pageFunctionContext);
             } else if (localPageFunction) {
@@ -94,8 +94,10 @@ const setUpCrawler = async (input) => {
             }
             if (!Array.isArray(results)) results = [results];
             const cleanResults = results.filter((result) => {
-                // TODO: Better way! maybe new param required atts?
-                const isAllSelectorsIncluded = selectors ? !Object.keys(selectors).some(key => !result[key]) : true;
+                const requiredAttributesInResult = requiredAttributes && requiredAttributes.length
+                    ? requiredAttributes
+                    : Object.keys(selectors);
+                const isAllSelectorsIncluded = selectors ? !requiredAttributesInResult.some(key => !result[key]) : true;
                 const isResultValid = result.url && isAllSelectorsIncluded;
                 return isResultValid;
             }).map((result) => {

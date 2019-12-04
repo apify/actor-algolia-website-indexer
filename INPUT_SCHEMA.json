@@ -5,6 +5,7 @@
   "schemaVersion": 1,
   "properties": {
     "algoliaAppId": {
+      "sectionCaption": "Basic",
       "title": "Algolia App ID",
       "type": "string",
       "description": "Your Algolia Application ID",
@@ -51,6 +52,13 @@
       ],
       "editor": "keyValue"
     },
+    "requiredAttributes": {
+      "title": "Required attributes",
+      "type": "array",
+      "description": "Pick attributes, which are required in index. By default all attributes from selectors are required.",
+      "prefill": [],
+      "editor": "json"
+    },
     "waitForElement": {
       "title": "Wait for element",
       "type": "string",
@@ -69,6 +77,37 @@
       "title": "Skip Index Updated",
       "type": "boolean",
       "description": "If check crawler will not update Algolia index.",
+      "default": true
+    },
+    "pseudoUrls": {
+      "sectionCaption": "Overrides defaults",
+      "title": "Pseudo-URLs",
+      "type": "array",
+      "description": "Overrides default pseudoUrls",
+      "editor": "pseudoUrls"
+    },
+    "pageFunction": {
+      "title": "Page function",
+      "type": "string",
+      "description": "Overrides default pageFunction",
+      "editor": "javascript"
+    },
+    "clickableElements": {
+      "title": "Clickable elements",
+      "type": "string",
+      "description": "Overrides default clickableElements",
+      "editor": "textfield"
+    },
+    "keepUrlFragments": {
+      "title": "Keep URL fragments",
+      "type": "boolean",
+      "description": "Option to switch on enqueueing URL with URL fragments",
+      "default": false
+    },
+    "omitSearchParamsFromUrl": {
+      "title": "Omit search params from URLs",
+      "type": "boolean",
+      "description": "Option to switch off enqueueing with search params.",
       "default": false
     }
   },
@@ -76,7 +115,6 @@
     "algoliaAppId",
     "algoliaApiKey",
     "algoliaIndexName",
-    "startUrls",
-    "selectors"
+    "startUrls"
   ]
 }
