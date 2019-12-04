@@ -1,5 +1,5 @@
 module.exports = async ({ page, request, selectors, Apify }) => {
-    const url = 'https://apify.com/docs/api/v2';
+    const url = 'https://docs.apify.com/api/v2';
 
     await page.waitForSelector('h1.humanColumnApiName');
 
