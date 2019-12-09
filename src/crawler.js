@@ -78,7 +78,7 @@ const setUpCrawler = async (input) => {
 
             // Get results from the page
             let results;
-            const pageFunctionContext = { page, request, selectors, requiredAttributes, Apify };
+            const pageFunctionContext = { page, request, selectors, requiredAttributes, Apify, requestQueue };
             if (pageFunction) {
                 results = await vm.runInThisContext(pageFunction)(pageFunctionContext);
             } else if (localPageFunction) {
