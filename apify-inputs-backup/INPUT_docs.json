@@ -3,12 +3,17 @@
     "algoliaIndexName": "prod_APIFY_HELP",
     "crawlerName": "docsCrawler",
     "startUrls": [
-        { "url": "https://apify.com/docs/" }
+        {
+            "url": "https://docs.apify.com/",
+            "userData": {
+                "isStartUrl": true
+            }
+        }
     ],
     "additionalPageAttrs": {
         "type": "docs"
     },
-    "clickableElements": ".docs-menu a",
-    "selectors": [],
+    "requiredAttributes": ["title", "text"],
+    "clickableElements": "EMPTY",
     "skipIndexUpdate": true
 }

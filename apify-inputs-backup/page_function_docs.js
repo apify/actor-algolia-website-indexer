@@ -1,106 +1,74 @@
-module.exports = async ({ page, request, selectors, Apify }) => {
-    const { url } = request;
-    let results = await page.evaluate((url) => {
-        const results = [];
+module.exports = async ({ page, request, Apify, requestQueue }) => {
+    const { url, userData } = request;
 
-        if ($('div.rendered-markdown').length || $('section').length === 0) {
-            // Scraping tutorials + CLI docs
-            let h1;
-            let h2;
-            let h3;
-            let sectionHtml = [];
-            const mainDiv = $('div.rendered-markdown').length ? $('div.rendered-markdown') : $('#home');
-            const docElements = mainDiv.children();
-            docElements.each(function(index) {
-                if ($(this).is('h1')) {
-                    h1 = $(this);
-                } else if ($(this).is('h2')) {
-                    if (h2) {
-                        results.push({
-                            url: `${url}#${h2.attr('id')}`,
-                            title: [h1.html(), h2.html()].join(': '),
-                            text:  sectionHtml.join(' '),
-                        });
-                    } else {
-                        results.push({
-                            url,
-                            title: h1.html(),
-                            text: sectionHtml.join(' '),
-                        });
-                    }
-                    sectionHtml = [];
-                    h2 = $(this);
-                }
-                // We do not index h3, it doesn't make sense in tutorials
-                // else if ($(this).is('h3')) {
-                //     if (h3) {
-                //         results.push({
-                //             url: `${url}#${h3.attr('id')}`,
-                //             title: [h1.html(), h2.html(), h3.html()].join(' - '),
-                //             text:  sectionHtml.join(' '),
-                //         });
-                //     } else {
-                //         results.push({
-                //             url,
-                //             title: [h1.html(), h2.html()].join(' - '),
-                //             text: sectionHtml.join(' '),
-                //         });
-                //     }
-                //     sectionHtml = [];
-                //     h3 = $(this);
-                // }
-                else {
-                    sectionHtml.push($(this).html())
-                    if (docElements.length === index + 1) {
-                        results.push({
-                            url: `${url}#${h2.attr('id')}`,
-                            title: [h1.html(), h2.html()].join(': '),
-                            text:  sectionHtml.join(' '),
-                        });
-                    }
-                }
-            });
-        } else {
-            // Other pages from doc
-            const h1 = $('h1').eq(0);
-            const h1html = h1.html();
-            const h1TextHtml = h1.next().html();
-            results.push({ url, title: h1html, text: h1TextHtml });
-
-            const h2s = $('h2');
-
-            h2s.each(function() {
-                const sectionId = $(this).parent().attr('id') || $(this).attr('id');
-                const h2Html = $(this).html();
-
-                results.push({
-                    url: `${url}#${sectionId}`,
-                    title: [h1html, h2Html].join(': '),
-                    text:  $(this).siblings('p').map(function() {return $(this).html()}).toArray().join(' '),
-                });
-
-                const h3s = $(this).parent().attr('id') ? $(this).parent().find('h3') : $(this).find('h3');
-
-                h3s.each(function() {
-                    const sectionId = $(this).parent().attr('id') || $(this).attr('id');
-                    results.push({
-                        url: `${url}#${sectionId}`,
-                        title: [h2Html, $(this).html()].join(': '),
-                        text: $(this).siblings().map(function () {return $(this).html()}).toArray().join(' '),
-                    });
-                });
-            });
-        }
-
-        return results;
-    }, url);
-
-    results = results.map((item) => {
-        Object.keys(item).forEach((key) => {
-            item[key] = Apify.utils.htmlToText(item[key]).substring(0, 9500);
+    // Enqueue all pages on start urls
+    if (userData && userData.isStartUrl) {
+        const pageData = await page.evaluate(() => {
+            const dataJson = $('#__NEXT_DATA__').text();
+            return JSON.parse(dataJson);
         });
-        return item;
-    });
+        const origin = pageData.query.locals.docsBaseUrl;
+        const pages = Object.values(pageData.query.locals.page.pagesList)
+                        .filter((page) => {
+                            // Filter out index page
+                            // Filter apify client doc, we need to rewrite this doc completely
+                            return page.path !== 'index' && page.path !== 'api/apify-client-js';
+                        });
+        for(const page of pages) {
+            await requestQueue.addRequest({
+                url: `${origin}/${page.path}`,
+            })
+        }
+        return {};
+    }
 
-    return results;
+    // Get all H1 and H2 and index them as separate pages
+    const pageFunction = (url) => {
+        let h1; let h2; let result;
+        const pageResults = [];
+        const markdownElements = $('div.markdown-body').children();
+        markdownElements.each(function(i) {
+            const parsedText = $(this).text();
+            if ($(this).is('h1')) {
+                h1 = {
+                    parsedText,
+                    hash: $(this).attr('id'),
+                };
+                result = {
+                    url: url,
+                    title: h1.parsedText,
+                    htmlContent: [],
+                };
+            } else if ($(this).is('h2')) {
+                if (h1 || h2) {
+                    pageResults.push(result);
+                }
+                h2 = {
+                    parsedText,
+                    hash: $(this).attr('id'),
+                };
+                result = {
+                    url: `${url}#${h2.hash}`,
+                    title: `${h1.parsedText}: ${h2.parsedText}`,
+                    htmlContent: [],
+                };
+            } else {
+                result.htmlContent.push($(this).html());
+            }
+
+            if (markdownElements.length === i + 1) {
+                pageResults.push(result);
+            }
+        });
+        return pageResults
+    };
+
+    const results = await page.evaluate(pageFunction, url);
+
+    return results.map((result) => {
+        const html = result.htmlContent.join(' ');
+        result.text = Apify.utils.htmlToText(html).substring(0, 9500);
+        delete result.htmlContent;
+        return result;
+    });
 };
