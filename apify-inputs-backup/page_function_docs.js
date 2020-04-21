@@ -1,5 +1,6 @@
 module.exports = async ({ page, request, Apify, requestQueue }) => {
     const { url, userData } = request;
+    const nonIndexPaths = ['index', 'api/apify-client-js'];
 
     // Enqueue all pages on start urls
     if (userData && userData.isStartUrl) {
@@ -7,13 +8,21 @@ module.exports = async ({ page, request, Apify, requestQueue }) => {
             const dataJson = $('#__NEXT_DATA__').text();
             return JSON.parse(dataJson);
         });
-        const origin = pageData.query.locals.docsBaseUrl;
-        const pages = Object.values(pageData.query.locals.page.pagesList)
-                        .filter((page) => {
-                            // Filter out index page
-                            // Filter apify client doc, we need to rewrite this doc completely
-                            return page.path !== 'index' && page.path !== 'api/apify-client-js';
-                        });
+        const origin = pageData.props.pageProps.locals.docsBaseUrl;
+        const pages = []
+        Object.values(pageData.query.page.pagesList)
+        .forEach((page) => {
+            // Filter out index page
+            // Filter apify client doc, we need to rewrite this doc completely
+            if(!nonIndexPaths.includes(page.path)) {
+                pages.push(page);
+                if (Array.isArray(page.children)) {
+                    page.children.forEach((childPage) => {
+                        if (!nonIndexPaths.includes(childPage.path)) pages.push(childPage);
+                    })
+                }
+            }
+        });
         for(const page of pages) {
             await requestQueue.addRequest({
                 url: `${origin}/${page.path}`,
@@ -22,7 +31,6 @@ module.exports = async ({ page, request, Apify, requestQueue }) => {
         return {};
     }
 
-    // Get all H1 and H2 and index them as separate pages
     const pageFunction = (url) => {
         let h1; let h2; let result;
         const pageResults = [];
