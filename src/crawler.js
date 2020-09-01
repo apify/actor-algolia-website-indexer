@@ -107,6 +107,7 @@ const setUpCrawler = async (input) => {
                     ...result,
                     ...additionalPageAttrs,
                     crawledBy: crawlerName,
+                    crawledAt: new Date,
                 }
             });
 
