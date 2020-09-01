@@ -21,7 +21,7 @@
         },
         {
             "key": "text",
-            "value": ".post-text"
+            "value": ".js-post-body"
         }
     ],
     "additionalPageAttrs": {
