@@ -45,6 +45,7 @@ module.exports = async ({ page, request, Apify, requestQueue }) => {
                 result = {
                     url: url,
                     title: h1.parsedText,
+                    description: $('p.description') && $('p.description').text().trim(),
                     htmlContent: [],
                 };
             } else if ($(this).is('h2')) {

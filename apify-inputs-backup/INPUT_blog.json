@@ -3,21 +3,29 @@
     "algoliaIndexName": "prod_APIFY_HELP",
     "crawlerName": "blogCrawler",
     "startUrls": [
-        { "url": "https://blog.apify.com/" }
+        {
+            "url": "https://blog.apify.com/"
+        }
     ],
     "selectors": [
         {
             "key": "title",
-            "value": "title"
+            "value": "h1"
         },
         {
             "key": "text",
             "value": "[data-selectable-paragraph]"
+        },
+        {
+            "key": "description",
+            "value": "meta[name=\"description\"]"
         }
     ],
-    "clickableElements": "a[data-post-id]",
     "additionalPageAttrs": {
         "type": "blog"
     },
+    "skipIndexUpdate": true,
+    "clickableElements": "a[data-post-id]",
+    "keepUrlFragments": false,
     "omitSearchParamsFromUrl": true
 }

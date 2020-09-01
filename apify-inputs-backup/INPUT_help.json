@@ -11,6 +11,10 @@
             "value": "h1.t__h1"
         },
         {
+            "key": "description",
+            "value": ".article__desc"
+        },
+        {
             "key": "text",
             "value": "article"
         }

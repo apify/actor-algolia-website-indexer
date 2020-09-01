@@ -4,7 +4,7 @@
 	"description": "This is a boilerplate of an Apify actor.",
 	"dependencies": {
 		"algoliasearch": "^3.33.0",
-		"apify": "^0.15.2",
+		"apify": "^0.15.5",
 		"bluebird": "^3.5.5",
 		"underscore": "^1.9.1"
 	},

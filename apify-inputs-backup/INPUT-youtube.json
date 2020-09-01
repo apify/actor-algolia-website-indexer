@@ -3,11 +3,8 @@
     "algoliaIndexName": "prod_APIFY_HELP",
     "crawlerName": "apifyYoutubeCrawler",
     "startUrls": [
-        { "url": "https://www.youtube.com/channel/UCTgwcoeGGKmZ3zzCXN2qo_A/videos" }
-    ],
-    "pseudoUrls": [
         {
-            "purl": "https://www.youtube.com/watch[.*]"
+            "url": "https://www.youtube.com/channel/UCTgwcoeGGKmZ3zzCXN2qo_A/videos"
         }
     ],
     "selectors": [
@@ -17,12 +14,20 @@
         },
         {
             "key": "text",
-            "value": "#description"
+            "value": "div#description"
         }
     ],
-    "clickableElements": "#contents a#video-title",
+    "waitForElement": "div#description",
     "additionalPageAttrs": {
         "type": "video"
     },
-    "skipIndexUpdate": true
+    "skipIndexUpdate": true,
+    "pseudoUrls": [
+        {
+            "purl": "https://www.youtube.com/watch[.*]"
+        }
+    ],
+    "clickableElements": "#contents a#video-title",
+    "keepUrlFragments": false,
+    "omitSearchParamsFromUrl": false
 }
