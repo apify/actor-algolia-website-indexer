@@ -23,6 +23,8 @@ const defaultPageFunction = async ({ page, request, selectors, Apify }) => {
             const selector = selectors[key];
             const elements = $(selector);
             if (elements.length) result[key] = elements.map(function() {return $(this).html()}).toArray().join(' ');
+            // NOTE: In some case e.g meta tags, we need to get content of element
+            if (elements.length && !result[key]) result[key] = $(selector).attr('content');
         });
         return result;
     };
