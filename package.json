@@ -6,7 +6,7 @@
 		"algoliasearch": "^3.33.0",
 		"apify": "^0.15.5",
 		"bluebird": "^3.5.5",
-		"underscore": "^1.9.1"
+		"underscore": "^1.12.1"
 	},
 	"devDependencies": {},
 	"scripts": {
